@@ -1,10 +1,12 @@
-import './App.css';
+import "./App.css";
+import Sidebar from "./Sidebar/Sidebar";
+
 
 function App() {
   return (
     <div className="App">
       <div className="app__body">
-        <h1>Let's build whatsapp</h1>
+        <Sidebar/>
       </div>
     </div>
   );
