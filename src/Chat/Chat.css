@@ -1,5 +1,7 @@
 .Chat {
-    flex: 7.0;
+    flex: 0.75;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat__header {
@@ -28,4 +30,64 @@
     justify-content: space-between;
     flex-direction: row;
     max-width: 150px;
+}
+
+.chat__name {
+    position: absolute;
+    top: -12px;
+    font-weight: 800;
+    font-size: xx-small;
+}
+
+.chat__message {
+    position: relative;
+    background-color: white;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.chat__reciever {
+    margin-left: auto;
+    background-color: #dcf8c6;
+}
+
+.chat__timestamp { 
+    font-size: xx-small;
+    padding-left: 15px;
+}
+
+.chat__body {
+    flex: 1;
+    background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+    background-repeat: repeat;
+    background-size:contain;
+    padding: 30px;
+    overflow: scroll;
+}
+
+.chat__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    border-top: 1px solid lightgray;
+}
+
+.chat__form {
+    flex: 1;
+    display: flex;
+}
+
+.chat__form > input {
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.chat__form > button {
+    display: none;
 }

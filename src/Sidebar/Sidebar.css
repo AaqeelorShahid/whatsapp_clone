@@ -5,7 +5,7 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    flex: 0.30;
+    flex: 0.25;
 }
 
 .sidebar__header {
@@ -47,11 +47,11 @@
 .sidebar__searchContainer > input {
     border: none;
     font-size: 13px;
+    flex: 1;
 }
 
 .sidebar__chats{
     flex: 1;
     overflow: scroll;
     background-color: white;
-
 }

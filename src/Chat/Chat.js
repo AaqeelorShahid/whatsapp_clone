@@ -1,14 +1,27 @@
-import { Avatar, IconButton } from "@material-ui/core";
-import { AttachFile, MoreVertOutlined, SearchOutlined } from "@mui/icons-material";
+import { Avatar, Button, IconButton } from "@material-ui/core";
+import {
+  AttachFile,
+  InsertEmoticon,
+  Mic,
+  MoreVertOutlined,
+  SearchOutlined,
+} from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import "./Chat.css";
 
 function Chat() {
-    const[seed, setSeed] = useState("")
-     
-    useEffect(() => {
-        setSeed(Math.floor(Math.random() * 5000));
-     }, [])
+  const [seed, setSeed] = useState("");
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setSeed(Math.floor(Math.random() * 5000));
+  }, []);
+
+  const sendMessage = (e) => {
+      e.preventDefault(); // To Stop page refereshing
+      console.log(input);
+      setInput("");
+  };
 
   return (
     <div className="Chat">
@@ -17,25 +30,56 @@ function Chat() {
 
         <div className="chat__info">
           <h3>Room name</h3>
-          <p>Last seen...  </p>
+          <p>Last seen... </p>
         </div>
 
         <div className="chat__headerRight">
-            <IconButton>
-                <SearchOutlined/>
-            </IconButton>
+          <IconButton>
+            <SearchOutlined />
+          </IconButton>
 
-            <IconButton>
-                <AttachFile/>
-            </IconButton>
+          <IconButton>
+            <AttachFile />
+          </IconButton>
 
-            <IconButton>
-                <MoreVertOutlined/>
-            </IconButton>
+          <IconButton>
+            <MoreVertOutlined />
+          </IconButton>
         </div>
       </div>
-      <div className="chat__body"></div>
-      <div className="chat__footer"></div>
+      <div className="chat__body">
+        <div className="chat__message">
+          <span className="chat__name">Shahid</span>
+          Hey Guys!!
+          <span className="chat__timestamp">9.06 PM</span>
+        </div>
+
+        <div className="chat__message chat__reciever">
+          <span className="chat__name">Barry</span>
+          Hey yo whatsapp!!
+          <span className="chat__timestamp">9.07 PM</span>
+        </div>
+      </div>
+
+      <div className="chat__footer">
+        <IconButton>
+          <InsertEmoticon />
+        </IconButton>
+
+        <form className="chat__form">
+          <input
+            value={input}
+            onChange = {(e) => setInput(e.target.value)}
+            placeholder="Type message here"
+            className="chat__inputBox"/>
+          <button onClick={sendMessage} type="submit">
+            Send message
+          </button>
+        </form>
+        <IconButton>
+          <Mic />
+        </IconButton>
+      </div>
     </div>
   );
 }
