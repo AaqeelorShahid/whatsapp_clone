@@ -1,36 +1,41 @@
-import { Avatar } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import './SidebarChat.css'
+import { Avatar } from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import db from "../firebase";
+import "./SidebarChat.css";
 
-function SidebarChat({addNewChat}) {
+function SidebarChat({ id, name, addNewChat }) {
+  const [seed, setSeed] = useState("");
 
-    const [seed, setSeed] = useState('');
+  const newChat = () => {
+    const roomName = prompt("Please enter your name for chat");
 
-    const newChat = () => {
-        const roomName = prompt("Please enter your name for chat");
-
-        if (roomName){
-
-        }
+    if (roomName) {
+      addChat(roomName);
     }
+  };
 
-    useEffect(() => {
-       setSeed(Math.floor(Math.random() * 5000));
-    }, [])
+  const addChat = async (roomName) => {
+    await addDoc(collection(db, "rooms"), { name: roomName });
+  };
+
+  useEffect(() => {
+    setSeed(Math.floor(Math.random() * 5000));
+  }, []);
 
   return !addNewChat ? (
     <div className="sidebarChat">
-        <Avatar src = {`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-        <div className="sidebarChat__info">
-            <h3>Room name</h3>
-            <p>Last message...</p>
-        </div>
+      <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+      <div className="sidebarChat__info">
+        <h3>{name}</h3>
+        <p>Last message...</p>
+      </div>
     </div>
   ) : (
-      <div className="sidebarChat" onClick={newChat}>
-          <h2>Add new Chat</h2>
-      </div>
-  )
+    <div className="sidebarChat" onClick={newChat}>
+      <h2>Add new Chat</h2>
+    </div>
+  );
 }
 
-export default SidebarChat
+export default SidebarChat;
