@@ -6,12 +6,26 @@ import {
   MoreVertOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import db from "../firebase";
 import "./Chat.css";
 
 function Chat() {
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
+  const [roomName, setRoomName] = useState("")
+  const {roomId} = useParams();
+
+
+
+  useEffect (() => {
+    if(roomId){
+      
+    }
+  }, [roomId])
+  // Every time roomId changes this above use effect will get triggered
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));

@@ -6,10 +6,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { SearchOutlined } from "@mui/icons-material";
 import SidebarChat from "../SidebarChat/SidebarChat";
-import {collection, getDocs} from 'firebase/firestore';
+import {collection} from 'firebase/firestore';
 import db from "../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
-import { logDOM } from "@testing-library/react";
+import { onSnapshot } from "firebase/firestore";
 
 function Sidebar() {
 
@@ -23,7 +22,7 @@ function Sidebar() {
         id: doc.id
       })))
     })
-
+  
   }, [])
 
 
