@@ -19,17 +19,32 @@ function Chat() {
   const {roomId} = useParams();
 
 
-
   useEffect (() => {
-    if(roomId){
-      
+    if(roomId){ 
+      getName(roomId);
+      // setSeed(Math.floor(Math.random() * 5000));
     }
   }, [roomId])
-  // Every time roomId changes this above use effect will get triggered
 
+
+  const getName = async (roomId) => {
+    const roomCollection = doc(db, `rooms`, `${roomId}`);
+    const data = await getDoc(roomCollection);
+
+    try {
+      const roomName = data.data().name;
+      setRoomName(roomName);
+    } catch (e) {
+      console.log(e);
+    }
+    
+  }
+
+  // Every time roomId changes this above use effect will get triggered
+  
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
-  }, []);
+  }, [roomId]);
 
   const sendMessage = (e) => {
       e.preventDefault(); // To Stop page refereshing
@@ -43,7 +58,7 @@ function Chat() {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
 
         <div className="chat__info">
-          <h3>Room name</h3>
+          <h3>{roomName}</h3>
           <p>Last seen... </p>
         </div>
 
