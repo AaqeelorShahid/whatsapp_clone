@@ -1,4 +1,4 @@
-import { Avatar, Button, IconButton } from "@material-ui/core";
+import { Avatar, IconButton } from "@material-ui/core";
 import {
   AttachFile,
   InsertEmoticon,
@@ -6,7 +6,7 @@ import {
   MoreVertOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import db from "../firebase";

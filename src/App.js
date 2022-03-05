@@ -1,13 +1,19 @@
+import React, {useState} from "react";
 import { Route, Routes } from "react-router";
-import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Chat from "./Chat/Chat";
+import Login from "./Login/Login";
 import Sidebar from "./Sidebar/Sidebar";
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <div className="App">
-      <div className="app__body">
+      {!user ? (
+        <Login/>
+      ) : (
+        <div className="app__body">
         <Routes>
           <Route
             path="/"
@@ -29,6 +35,7 @@ function App() {
           />
         </Routes>
       </div>
+      )}
     </div>
   );
 }
