@@ -4,9 +4,10 @@ import "./App.css";
 import Chat from "./Chat/Chat";
 import Login from "./Login/Login";
 import Sidebar from "./Sidebar/Sidebar";
+import { useStatevalue } from "./StateProvider";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [{user}, dispatch] = useStatevalue()
 
   return (
     <div className="App">

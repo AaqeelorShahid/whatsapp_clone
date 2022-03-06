@@ -7,7 +7,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { SearchOutlined } from "@mui/icons-material";
 import SidebarChat from "../SidebarChat/SidebarChat";
 import {collection} from 'firebase/firestore';
-import db from "../firebase";
+import {db} from "../firebase";
 import { onSnapshot } from "firebase/firestore";
 
 function Sidebar() {

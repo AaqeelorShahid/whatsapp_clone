@@ -9,7 +9,7 @@ import {
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import db from "../firebase";
+import {db} from "../firebase";
 import "./Chat.css";
 
 function Chat() {
@@ -17,6 +17,7 @@ function Chat() {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("")
   const {roomId} = useParams();
+
 
 
   useEffect (() => {
