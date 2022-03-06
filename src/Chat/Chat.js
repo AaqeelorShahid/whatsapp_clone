@@ -6,7 +6,7 @@ import {
   MoreVertOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, Firestore, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {db} from "../firebase";
@@ -16,6 +16,7 @@ function Chat() {
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("")
+  const [messages, setMessages] = useState([])
   const {roomId} = useParams();
 
 
@@ -23,10 +24,22 @@ function Chat() {
   useEffect (() => {
     if(roomId){ 
       getName(roomId);
-      // setSeed(Math.floor(Math.random() * 5000));
+      getMessages(roomId);
     }
   }, [roomId])
 
+  const getMessages = async (roomId) => {
+      const messageCollectiom = collection (db, "rooms", `${roomId}`, "messages");
+      const unsub = onSnapshot(messageCollectiom, (snapShot) => {
+        // setMessages(data.forEach(doc => {
+        //   doc.data()
+        // }))
+        setMessages(snapShot.docs.map( (doc) => doc.data() ))
+      })
+
+      console.log(messages);
+
+  }
 
   const getName = async (roomId) => {
     const roomCollection = doc(db, `rooms`, `${roomId}`);
@@ -78,7 +91,16 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
-        <div className="chat__message">
+
+        {messages.map((msg) => (
+                  <div className="chat__message">
+                  <span className="chat__name">{msg.name}</span>
+                  {msg.message}
+                  <span className="chat__timestamp">9.06 PM</span>
+                </div>
+        ))}
+
+        {/* <div className="chat__message">
           <span className="chat__name">Shahid</span>
           Hey Guys!!
           <span className="chat__timestamp">9.06 PM</span>
@@ -88,7 +110,7 @@ function Chat() {
           <span className="chat__name">Barry</span>
           Hey yo whatsapp!!
           <span className="chat__timestamp">9.07 PM</span>
-        </div>
+        </div> */}
       </div>
 
       <div className="chat__footer">
