@@ -6,20 +6,21 @@ import {
   MoreVertOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
-import { collection, doc, Firestore, getDoc, onSnapshot } from "firebase/firestore";
+import { collection, doc, addDoc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {db} from "../firebase";
 import "./Chat.css";
+import { useStatevalue } from "../StateProvider";
+import { serverTimestamp } from "firebase/firestore";
 
 function Chat() {
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("")
   const [messages, setMessages] = useState([])
-  const {roomId} = useParams();
-
-
+  const {roomId} = useParams()
+  const [{ user }, dispatch] = useStatevalue()
 
   useEffect (() => {
     if(roomId){ 
@@ -29,11 +30,12 @@ function Chat() {
   }, [roomId])
 
   const getMessages = async (roomId) => {
-      const messageCollectiom = collection (db, "rooms", `${roomId}`, "messages");
+      const   messageCollectiom = collection (db, "rooms", `${roomId}`, "messages");
       const unsub = onSnapshot(messageCollectiom, (snapShot) => {
         // setMessages(data.forEach(doc => {
         //   doc.data()
         // }))
+        console.log(snapShot)
         setMessages(snapShot.docs.map( (doc) => doc.data() ))
       })
 
@@ -51,7 +53,6 @@ function Chat() {
     } catch (e) {
       console.log(e);
     }
-    
   }
 
   // Every time roomId changes this above use effect will get triggered
@@ -63,8 +64,20 @@ function Chat() {
   const sendMessage = (e) => {
       e.preventDefault(); // To Stop page refereshing
       console.log(input);
+      sendDatabaseMessage()
       setInput("");
   };
+
+  const sendDatabaseMessage = async () => {
+    const messageCollection = collection (db, "rooms", `${roomId}`, "messages");
+    console.log(messageCollection);
+    await addDoc(messageCollection, 
+      {
+        message: input,
+        name: user.displayName,
+        time: serverTimestamp()
+      })
+  }
 
   return (
     <div className="Chat">
@@ -93,24 +106,12 @@ function Chat() {
       <div className="chat__body">
 
         {messages.map((msg) => (
-                  <div className="chat__message">
+                  <div className={`chat__message ${msg.name == user.displayName && 'chat__reciever'}`}>
                   <span className="chat__name">{msg.name}</span>
                   {msg.message}
                   <span className="chat__timestamp">9.06 PM</span>
                 </div>
         ))}
-
-        {/* <div className="chat__message">
-          <span className="chat__name">Shahid</span>
-          Hey Guys!!
-          <span className="chat__timestamp">9.06 PM</span>
-        </div>
-
-        <div className="chat__message chat__reciever">
-          <span className="chat__name">Barry</span>
-          Hey yo whatsapp!!
-          <span className="chat__timestamp">9.07 PM</span>
-        </div> */}
       </div>
 
       <div className="chat__footer">
@@ -118,7 +119,7 @@ function Chat() {
           <InsertEmoticon />
         </IconButton>
 
-        <form className="chat__form">
+        <form className="chat__form" onSubmit={sendMessage}>
           <input
             value={input}
             onChange = {(e) => setInput(e.target.value)}
